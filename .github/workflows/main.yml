@@ -1,0 +1,29 @@
+name: Trigger https://github.com/xuekaiyuan-com/xuekaiyuan-com.github.io GitHub Action
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["master"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Default to bash
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  # Trigger job
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: POST https://api.github.com/repos/xuekaiyuan-com/xuekaiyuan-com.github.io/dispatches
+        run: |
+          curl \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.TRIGGER_XUEKAIYUAN_COM }}"\
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/xuekaiyuan-com/xuekaiyuan-com.github.io/dispatches \
+            -d '{"event_type":"trigger by https://github.com/huzhenghui/posts/","client_payload":{"unit":false,"integration":true}}'
