@@ -1,0 +1,25 @@
+name: Trigger https://xuekaiyuan.netlify.app Build hooks
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["master"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Default to bash
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  # Trigger job
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: POST https://xuekaiyuan.netlify.app Build hooks
+        run: |
+          curl \
+            -X POST -d '{}' \
+            "${{ secrets.TRIGGER_XUEKAIYUAN_NETLIFY_APP }}"
