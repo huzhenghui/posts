@@ -1,0 +1,19 @@
+#############################  Display  #############################
+
+# Verbose program output
+verbose = true
+
+# Don't show interactive progress bar while checking links.
+no_progress = false
+
+#############################  Exclusions  ##########################
+
+# Check links inside `<code>` and `<pre>` blocks as well as Markdown code
+# blocks.
+include_verbatim = true
+
+# Exclude URLs and mail addresses from checking (supports regex).
+exclude = [
+'https://github.com/huzhenghui/posts/settings/secrets/actions',
+'https://api.github.com/repos/xuekaiyuan-com/xuekaiyuan-com.github.io/dispatches',
+]

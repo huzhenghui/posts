@@ -1,0 +1,14 @@
+settings:
+  data-dir: ./
+  recursive: true
+  skip:
+    - dist
+templates:
+  md:
+    glob: ["*.md"]
+    metadata:
+      IMAGE_PREFIX: https://raw.githubusercontent.com/huzhenghui/posts/master/
+    pandoc:
+      from: markdown
+      to: gfm
+      lua-filter: image.lua

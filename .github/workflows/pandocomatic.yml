@@ -1,0 +1,44 @@
+name: pandoc
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["master"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Default to bash
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  # Trigger job
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: rm ./dist/Pandocomatic/.gitkeep
+        run: rm ./dist/Pandocomatic/.gitkeep
+      - name: clone https://github.com/huzhenghui/posts-pandocomatic
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB_POSTS_PANDOCOMATIC }}
+        run: git clone  --single-branch --depth 1 --branch master https://huzhenghui:$API_TOKEN_GITHUB@github.com/huzhenghui/posts-pandocomatic.git './dist/Pandocomatic/'
+      - uses: docker://pandoc/core:2.19-ubuntu
+        with:
+          entrypoint: "./Pandocomatic/docker.entrypoint.sh"
+      - name: user.email
+        run: git config --global user.email "hu@daonao.com"
+      - name: user.name
+        run: git config --global user.name "huzhenghui"
+      - name: commit
+        run: |
+          cd './dist/Pandocomatic/'; \
+          git add --all; \
+          git commit --allow-empty --message='pandoc Trigger'
+      - name: push
+        run: |
+          cd './dist/Pandocomatic/'; \
+          git push origin
